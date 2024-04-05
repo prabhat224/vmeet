@@ -9,10 +9,10 @@ interface HomeCardProp{
     desc:string,
     handelClick:()=>void
 }
-const HomeCard = ({className,img,title,desc}:HomeCardProp) => {
+const HomeCard = ({className,img,title,desc,handelClick}:HomeCardProp) => {
   return (
     <div className=''>
-        <div className={cn(' px-4 py-6 flex flex-col justify-between w-full xl:max-w-[270px] min-h-[270px] rounded-[14px] cursor-pointer',className)} onClick={()=>{}}>
+        <div className={cn(' px-4 py-6 flex flex-col justify-between w-full xl:max-w-[270px] min-h-[270px] rounded-[14px] cursor-pointer',className)} onClick={()=>{handelClick()}}>
             <div className='flex-center glassmorphism size-12 rounded-[12px]'>
                 <Image src={img} alt='icon' width={24} height={24}/>
             </div>
