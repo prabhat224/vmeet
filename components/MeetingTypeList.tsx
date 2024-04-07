@@ -4,9 +4,52 @@ import HomeCard from './HomeCard'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import MeetingModal from './MeetingModal'
+import { useStreamVideoClient } from '@stream-io/video-react-sdk'
+import { useUser } from '@clerk/nextjs'
+import { Call } from '@stream-io/video-react-sdk'
+import { useToast } from "@/components/ui/use-toast"
 
 const MeetingTypeList = () => {
-    const createMeeting=()=>{
+    const client=useStreamVideoClient()
+    const user=useUser()
+    const[values,setValues]=useState({
+        dateTime:new Date(),
+        description:'',
+        link:''
+    })
+    const [callDetails,setCallDetails]=useState<Call>()
+    const { toast } = useToast()
+    const createMeeting=async () => {
+        if(!user || !client)return;
+        try{
+            const id=crypto.randomUUID();
+            const call=client.call('default',id);
+            if(!call)throw Error('call did not connect')
+            if(!values.dateTime)toast({ title: "Call cannot be set up"})
+            const startsAt=values.dateTime.toISOString()|| new Date(Date.now()).toISOString();
+            const description=values.description || 'Instant meeting'
+            await call.getOrCreate({
+                data:
+                {
+                    starts_at:startsAt,
+                    custom:{
+                        description
+                    }
+                }
+            })
+            setCallDetails(call);
+            if(!values.description)
+            {
+                router.push(`meeting/${call.id}`)
+            }
+            toast({ title: "Meeting created"})
+
+        }catch(error)
+        {
+            console.log("An error occured")
+            toast({ title: "Call cannot be set up",})
+        }
+
         
     }
     const [meetingStatus, meetingStatusSet] = useState<'isScheduleMeeting' | 'isJoiningMeeting' | 'startInstantMeeting' | undefined>()
