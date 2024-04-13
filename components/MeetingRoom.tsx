@@ -1,3 +1,4 @@
+'use client'
 import { cn } from '@/lib/utils'
 import { CallControls, CallParticipantsList, CallStatsButton, CallingState, PaginatedGridLayout, SpeakerLayout, useCallStateHooks } from '@stream-io/video-react-sdk'
 import { useState } from 'react'
@@ -6,11 +7,13 @@ import { LayoutList, User } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import EndCallButton from './EndCallButton'
 import Loader from './Loader'
+import { useRouter } from 'next/navigation'
 
 const MeetingRoom = () => {
   type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
   const [showParticipants, setShowParticipants] = useState(false)
   const searchParams=useSearchParams()
+  const router=useRouter();
   const isPersonalRoom=!!searchParams.get('personal')
   const [layout, setLayout] = useState<CallLayoutType>('speaker-left')
   const {useCallCallingState}=useCallStateHooks();
@@ -37,7 +40,7 @@ const MeetingRoom = () => {
         </div>
       </div>
       <div className='fixed bottom-0 flex w-full items-center justify-center gap-5 flex-wrap'>
-        <CallControls />
+        <CallControls onLeave={()=>router.push('/')}/>
         <DropdownMenu>
           <div className='flex items-center'>
             <DropdownMenuTrigger className='cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]'>

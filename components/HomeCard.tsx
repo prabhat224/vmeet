@@ -7,12 +7,12 @@ interface HomeCardProp{
     img:string,
     title:string,
     desc:string,
-    handelClick:()=>void
+    handleClick:()=>void
 }
-const HomeCard = ({className,img,title,desc,handelClick}:HomeCardProp) => {
+const HomeCard = ({className,img,title,desc,handleClick}:HomeCardProp) => {
   return (
     <div className=''>
-        <div className={cn(' px-4 py-6 flex flex-col justify-between w-full xl:max-w-[270px] min-h-[270px] rounded-[14px] cursor-pointer',className)} onClick={()=>{handelClick()}}>
+        <div className={cn(' px-4 py-6 flex flex-col justify-between w-full xl:max-w-[270px] min-h-[270px] rounded-[14px] cursor-pointer',className)} onClick={()=>{handleClick()}}>
             <div className='flex-center glassmorphism size-12 rounded-[12px]'>
                 <Image src={img} alt='icon' width={24} height={24}/>
             </div>

@@ -24,8 +24,7 @@ export const useGetCalls = () => {
               { members: { $in: [user.id] } },
             ],
           },
-        });
-
+        }); 
         setCalls(calls);
       } catch (error) {
         console.error(error);
@@ -33,7 +32,6 @@ export const useGetCalls = () => {
         setIsLoading(false);
       }
     };
-
     loadCalls();
   }, [client, user?.id]);
 
